@@ -3,6 +3,7 @@ GEM
   specs:
     backports (3.11.3)
     coderay (1.1.2)
+    dotenv (2.4.0)
     method_source (0.9.0)
     multi_json (1.13.1)
     mustermann (1.0.2)
@@ -30,6 +31,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
   pry
   sinatra
   sinatra-contrib
