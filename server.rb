@@ -11,12 +11,14 @@ set :bind, '0.0.0.0'
 REST_URL = "https://developer.api.yodlee.com/ysl/restserver/v1/"
 COBRAND_LOGIN_URL = REST_URL + "cobrand/login"
 USER_LOGIN_URL = REST_URL + "user/login"
+TOKEN_URL = REST_URL + "user/accessTokens"
 
 # Credentials
 COBRAND_LOGIN = ENV['COBRAND_LOGIN']
 COBRAND_PASS = ENV['COBRAND_PASS']
 USER_ID = ENV['USER_ID']
 USER_PASS = ENV['USER_PASS']
+FINAPP_ID = "10003600"
 
 # Params
 COBRAND_LOGIN_PARAMS = {
@@ -42,27 +44,27 @@ def cobrand_request(url,payload)
   )
 end
 
-def user_request(url,payload,auth)
-
-  response = RestClient.post(url,
+def user_request(url,payload,cob_session)
+  RestClient.post(url,
     payload.to_json,
-    {content_type: :json, :authorization => "cobSession=#{auth}"}
+    {content_type: :json, :authorization => "cobSession=#{cob_session}"}
   )
-  # { |response,request,result|
-  #     case response.code
-  #     when 400
-  #       [ :error, parse_json(response.to_str) ]
-  #     else
-  #       fail "Invalid response #{response.to_str} received."
-  #     end
-  # }
+end
 
+def token_request(url,cob_session,user_session)
+  url = url + "?appIds=" + FINAPP_ID
+  RestClient.get(url,
+    {content_type: :json, :authorization => "cobSession=#{cob_session},userSession=#{user_session}"}
+  )
 end
 
 get '/yodlee-fastlink' do
 
-  COB_SESSION = JSON.parse(cobrand_request(COBRAND_LOGIN_URL, COBRAND_LOGIN_PARAMS).body)["session"]["cobSession"]
-  USER_SESSION = JSON.parse( user_request(USER_LOGIN_URL, USER_LOGIN_PARAMS, COB_SESSION).body)["user"]["session"]["userSession"]
+  COB_SESSION = JSON.parse( cobrand_request(COBRAND_LOGIN_URL, COBRAND_LOGIN_PARAMS).body )["session"]["cobSession"]
+  USER_SESSION = JSON.parse( user_request(USER_LOGIN_URL, USER_LOGIN_PARAMS, COB_SESSION).body )["user"]["session"]["userSession"]
+  ACCESS_TOKENS_BODY = JSON.parse( token_request(TOKEN_URL, COB_SESSION, USER_SESSION).body )
+  ACCESS_TOKEN = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["value"]
+  ENTRY_POINT_URL = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["url"]
 
   erb :index
 
