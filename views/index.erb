@@ -5,7 +5,6 @@
     <title>Yodlee FastLink Integration</title>
   </head>
   <body>
-    <h1>Hello World</h1>
 
   <form action="<%= @NODE_URL %>"
       method="POST"
@@ -16,6 +15,7 @@
     <input type="text" name="token" value="<%= @ACCESS_TOKEN %>" />
     <input type="text" name="redirectReq" value="true"/>
   </form>
+
   <script>
     let form = document.getElementById('rsessionPost');
     form.submit();

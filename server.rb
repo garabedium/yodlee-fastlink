@@ -67,9 +67,5 @@ get '/yodlee-fastlink' do
   @ACCESS_TOKEN = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["value"]
   ENTRY_POINT_URL = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["url"]
 
-
-
-
   erb :index
-
 end
