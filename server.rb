@@ -69,8 +69,3 @@ get '/yodlee-fastlink' do
   erb :index
 
 end
-
-
-
-
-
