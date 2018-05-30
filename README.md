@@ -1,5 +1,11 @@
 # Yodlee FastLink
-This repo provides a simple Ruby + Sinatra integration with Yodlee's FastLink app.
+This repo provides a simple Ruby + Sinatra integration example of Yodlee's [FastLink](https://developer.yodlee.com/Fastlink_2.0) app.
 
-## FastLink
-FastLink provides tools to integrate with over 16,000 financial institutions.
+## Getting Started
+- Visit: https://yodlee-fastlink.herokuapp.com/yodlee-fastlink
+
+## Environment and Dependencies
+- Built with Ruby and Sinatra server
+- Rest calls made with [rest-client](https://github.com/rest-client/rest-client) gem
+- Environment variables set with [dotenv](https://github.com/bkeepers/dotenv) gem
+- Hosted on Heroku
