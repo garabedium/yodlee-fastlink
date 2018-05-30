@@ -59,12 +59,16 @@ def token_request(url,cob_session,user_session)
 end
 
 get '/yodlee-fastlink' do
+  @NODE_URL="https://node.developer.yodlee.com/authenticate/restserver/"
 
-  COB_SESSION = JSON.parse( cobrand_request(COBRAND_LOGIN_URL, COBRAND_LOGIN_PARAMS).body )["session"]["cobSession"]
-  USER_SESSION = JSON.parse( user_request(USER_LOGIN_URL, USER_LOGIN_PARAMS, COB_SESSION).body )["user"]["session"]["userSession"]
-  ACCESS_TOKENS_BODY = JSON.parse( token_request(TOKEN_URL, COB_SESSION, USER_SESSION).body )
-  ACCESS_TOKEN = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["value"]
+  @COB_SESSION = JSON.parse( cobrand_request(COBRAND_LOGIN_URL, COBRAND_LOGIN_PARAMS).body )["session"]["cobSession"]
+  @USER_SESSION = JSON.parse( user_request(USER_LOGIN_URL, USER_LOGIN_PARAMS, @COB_SESSION).body )["user"]["session"]["userSession"]
+  ACCESS_TOKENS_BODY = JSON.parse( token_request(TOKEN_URL, @COB_SESSION, @USER_SESSION).body )
+  @ACCESS_TOKEN = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["value"]
   ENTRY_POINT_URL = ACCESS_TOKENS_BODY["user"]["accessTokens"][0]["url"]
+
+
+
 
   erb :index
 
