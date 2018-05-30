@@ -24,15 +24,15 @@ def cobrand_login(payload)
 end
 
 get '/yodlee-fastlink' do
-  cobrand_login_payload = {
+  cobrand_login_request = {
     "cobrand": {
       "cobrandLogin": COBRAND_LOGIN,
       "cobrandPassword": COBRAND_PASS,
       "locale": "en_US"
     }
   }
-  cobrand_login_result = cobrand_login(cobrand_login_payload)
-  #cobrand_login_result.body
+  cob_session = JSON.parse(cobrand_login(cobrand_login_request).body)["session"]["cobSession"]
+  # cobrand_login_result.body
 
   erb :index
 end
